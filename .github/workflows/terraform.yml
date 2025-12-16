@@ -75,4 +75,4 @@ jobs:
         run: terraform init
 
       - name: Terraform Plan (PROD)
-        run: terraform plan -var-file=prod.t
+        run: terraform plan -var-file=prod.tfvars
