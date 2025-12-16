@@ -1,11 +1,5 @@
 locals {
   environment = "dev"
-
-  clusters = {
-    default = {
-      cluster_name = "dev-eks"
-    }
-  }
 }
 
 module "vpc" {
@@ -24,7 +18,7 @@ module "vpc" {
 }
 
 module "eks" {
-  for_each = local.clusters
+  for_each = var.clusters
   source   = "../../modules/eks"
 
   cluster_name    = each.value.cluster_name
