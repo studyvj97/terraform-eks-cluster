@@ -25,6 +25,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.6.6
+
       - name: Configure AWS credentials (OIDC)
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -45,7 +50,6 @@ jobs:
     name: Terraform PROD
     runs-on: ubuntu-latest
     needs: terraform-dev
-
     environment: prod
 
     defaults:
@@ -55,6 +59,11 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.6.6
 
       - name: Configure AWS credentials (OIDC)
         uses: aws-actions/configure-aws-credentials@v4
@@ -66,9 +75,4 @@ jobs:
         run: terraform init
 
       - name: Terraform Plan (PROD)
-        run: terraform plan -var-file=prod.tfvars
-
-      - name: Terraform Apply (PROD)
-        if: github.event_name == 'push'
-        run: terraform apply -auto-approve -var-file=prod.tfvars
-
+        run: terraform plan -var-file=prod.t
